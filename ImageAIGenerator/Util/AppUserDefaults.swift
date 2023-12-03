@@ -1,15 +1,26 @@
 
 import Foundation
 import UIKit
+import SwiftUI
+
 
 struct AppUserDefaults{
+    
+
     
 //    @UserDefault("appThemeColor", defaultValue: "")
 //    static var appThemeColor: String
 //    
 //    @UserDefault("preferredTheme", defaultValue: 0)
 //    static var preferredTheme: Int
-//    
+    
+    
+    @UserDefault("AppUsed", defaultValue: 0)
+    static var AppUsed: Int
+    
+    @UserDefault("isPRO", defaultValue: false)
+    static var isPRO: Bool
+   
     @UserDefault("preferredLanguage", defaultValue: "en")
     static var preferredLanguage: String
     

@@ -28,6 +28,7 @@ struct GenerateView: View {
     @State var itemLocal:String = ""
     @State var promtToadd:String = ""
     @State var isPresented:Bool = false
+    @State var ShowIAP:Bool = false
     //    @State var credit = AppUserDefaults.credit
     
     var body: some View {
@@ -66,8 +67,8 @@ struct GenerateView: View {
                                         .resizable()
                                         .padding(10)
                                 }
-
-                         
+                            
+                            
                             
                             HStack {
                                 
@@ -138,17 +139,20 @@ struct GenerateView: View {
                             //Promt
                             HStack {
                                 
-                                
                                 HStack {
-                                  
+                                    
                                     Button {
+                                        
                                         isFocused = false
+                                        
+                                        guard AppUserDefaults.isPRO || AppUserDefaults.AppUsed == 0 else {
+                                            ShowIAP = true
+                                            return }
                                         
                                         if(text.isEmpty){
                                             showingAlert = true
                                             return
                                         }
-                                        
                                         
                                         isPresented.toggle()
                                         
@@ -160,19 +164,15 @@ struct GenerateView: View {
                                         .frame(width: 150)
                                         .frame(height: 49)
                                 }
-
+                                    
                                     
                                 }.padding(10)
-                               
-                                      
+                                
+                                
                             }
                             .background(Color(hex: 0x222141, alpha: 1))
                             .cornerRadius(20)
                             .padding(.top,25)
-                            
-                            
-                            
-                            
                             
                         }
                         .padding()
@@ -196,9 +196,8 @@ struct GenerateView: View {
                 .onDisappear {
                     NotificationCenter.default.removeObserver(self)
                 }
-            
                 
-                
+
                 .sheet(isPresented: $showSubscriptionView, content: {
                     
                     PaywallView()
@@ -206,6 +205,11 @@ struct GenerateView: View {
                 
             }
             .overlay(content: {
+                if ShowIAP {
+                    InAppPurchases(close: $ShowIAP).padding(.top,40)
+                }
+                
+                
                 if viewModel.isLoading {
                     Loading()
                 }
@@ -237,7 +241,7 @@ struct GenerateView: View {
         
         
         
-       
+        
         
         
         // prevent iPad split view

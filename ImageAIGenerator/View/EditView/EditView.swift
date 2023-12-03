@@ -23,7 +23,7 @@ struct EditView: View {
     @State var showSubscriptionView = false
     
     @FocusState var isFocused: Bool
-    
+    @State var ShowIAP:Bool = false
     
     @State var fetchedImage:Image?
     
@@ -187,6 +187,10 @@ struct EditView: View {
                         isFocused = false
                         errorText = ""
                         
+                        guard AppUserDefaults.isPRO || AppUserDefaults.AppUsed == 0 else {
+                            ShowIAP = true
+                            return
+                        }
                         
                         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                             
@@ -194,7 +198,6 @@ struct EditView: View {
                             let maskRenderer = ImageRenderer(content: currentImage.reverseMask {
                                 SwiftBetaCanvas(lines: $lines, currentLineWidth: 30)
                             })
-                            
                             
                             TEMP = Image(uiImage: maskRenderer.uiImage!)
                             // selectedImage = Image(uiImage: selectedImageRenderer.uiImage!)
@@ -208,7 +211,7 @@ struct EditView: View {
                                     return
                                 }
                                 
-                                
+                                AppUserDefaults.AppUsed += 1
                                 self.viewModel.generateEdit(withText: text,
                                                             imageData: selectedPNGData,
                                                             maskData: maskPNG)
@@ -314,55 +317,63 @@ struct EditView: View {
         }
         .padding(.horizontal)
         .padding(.top,4)
-            .background {
-                Image("bg")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
+        .background {
+            Image("bg")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         }
-//            .overlay {
-//                
-//                VStack{
-//                    Spacer()
-//                    HStack(spacing: 60){
-//                        Button {
-//                            
-//                        } label: {
-//                            Image("coloredEdit")
-//                                .resizable()
-//                                .frame(width: 26, height: 26, alignment: .center)
-//                        }
-//                        
-//                        Button {
-//                            
-//                        } label: {
-//                            Image("main_White")
-//                                .resizable()
-//                                .frame(width: 26, height: 26, alignment: .center)
-//                        }
-//                        
-//                        
-//                        Button {
-//                            
-//                        } label: {
-//                            Image("setting")
-//                                .resizable()
-//                                .frame(width: 26, height: 26, alignment: .center)
-//                        }
-//                        
-//                    }
-//                    .frame(height: 60)
-//                    .frame(width: UIScreen.main.bounds.size.width-45)
-//                    .background(Color(hex: 0x222141, alpha: 1))
-//                    .cornerRadius(15)
-//                    
-//                    
-//                    
-//                    
-//                }
-//                .ignoresSafeArea(.keyboard)
-//                
-//            }
+        
+        .overlay {
+            if ShowIAP {
+                InAppPurchases(close: $ShowIAP)
+            }
+        }
+        
+        
+        //            .overlay {
+        //
+        //                VStack{
+        //                    Spacer()
+        //                    HStack(spacing: 60){
+        //                        Button {
+        //
+        //                        } label: {
+        //                            Image("coloredEdit")
+        //                                .resizable()
+        //                                .frame(width: 26, height: 26, alignment: .center)
+        //                        }
+        //
+        //                        Button {
+        //
+        //                        } label: {
+        //                            Image("main_White")
+        //                                .resizable()
+        //                                .frame(width: 26, height: 26, alignment: .center)
+        //                        }
+        //
+        //
+        //                        Button {
+        //
+        //                        } label: {
+        //                            Image("setting")
+        //                                .resizable()
+        //                                .frame(width: 26, height: 26, alignment: .center)
+        //                        }
+        //
+        //                    }
+        //                    .frame(height: 60)
+        //                    .frame(width: UIScreen.main.bounds.size.width-45)
+        //                    .background(Color(hex: 0x222141, alpha: 1))
+        //                    .cornerRadius(15)
+        //
+        //
+        //
+        //
+        //                }
+        //                .ignoresSafeArea(.keyboard)
+        //
+        //            }
     }
 }
 

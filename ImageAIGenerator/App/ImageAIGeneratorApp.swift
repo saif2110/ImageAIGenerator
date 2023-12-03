@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RevenueCat
+
 
 @main
 struct ImageAIGeneratorApp: App {
@@ -32,10 +34,19 @@ struct ImageAIGeneratorApp: App {
         
     }
     
+    @AppStorage("isWelcomePageShown") var isWelcomePageShown: Bool = false
     
     var body: some Scene {
         WindowGroup {
-            WelcomePages()
+            
+            if isWelcomePageShown {
+                ContentView()
+            }else{
+                WelcomePages()
+            }
+          
+            
+            // WelcomePages()
            // ContentView()
             //EditView()
             

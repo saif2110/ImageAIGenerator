@@ -16,7 +16,7 @@ struct PhotoView: View {
     
     @State private var isPresented = false
     @State var image: Image? = nil
-    
+
     
     
     @State var photos = PhotoManager.shared.retrievePhotos()
@@ -48,19 +48,23 @@ struct PhotoView: View {
                     ForEach(photos ?? [], id: \.self) { item in
                         
                         Button {
-                            
+
                             image =  Image(uiImage: item)
                             isPresented.toggle()
-                            
+
                         } label: {
                             Image(uiImage: item)
                                 .resizable()
-                                .aspectRatio(1,contentMode: .fill)
-                                .cornerRadius(21)
-                                .onAppear{
-                                    print(item)
-                                }
+                                .cornerRadius(10)
+                                .scaledToFill()
+                               // .aspectRatio(1,contentMode: .fill)
+                                
+                            
+                          //  Rectangle().fill(.red).frame(width: 170, height: 170).cornerRadius(21)
                         }
+                        
+                        
+//                        Rectangle().fill(.red).frame(width: 170, height: 170).cornerRadius(21)
                         
                     }
                     Rectangle().fill(.clear).frame(height: 50)
@@ -87,18 +91,11 @@ struct PhotoView: View {
             }
         }
         
-        //        .fullScreenCover(isPresented: $isPresented) {
-        //
-        //                if let unwrappedImage = image {
-        //                  //  DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
-        //                        PhotoBlack(photo: unwrappedImage)
-        //                    //}
-        //                } else {
-        //                    // Handle the case where image is nil, perhaps by showing a placeholder or default image
-        //                    PhotoBlack(photo: Image("Photo"))
-        //                }
-        //
-        //        }
+        .onAppear{
+            if PhotoManager.shared.retrievePhotos()?.count != photos?.count {
+                photos = PhotoManager.shared.retrievePhotos()
+            }
+        }
     }
 }
 

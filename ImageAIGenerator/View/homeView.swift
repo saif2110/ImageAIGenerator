@@ -159,7 +159,7 @@ struct homeView: View {
                                     .onTapGesture {
                                         vibarate()
                                         itemLocal = item
-                                        
+                                        isFocused = false
                                     }
                                 
                                 
