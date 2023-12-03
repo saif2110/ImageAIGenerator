@@ -7,11 +7,13 @@
 
 import SwiftUI
 import RevenueCat
+import StoreKit
 
 
 let inAppPurchases = "AiWeekly"
 
 struct InAppPurchases: View {
+    @Environment(\.requestReview) var requestReview
     
     @Binding var close:Bool
     @State var price = ""
@@ -161,8 +163,8 @@ struct InAppPurchases: View {
                         .progressViewStyle(.circular)
                         .tint(.purple)
                         .foregroundColor(.purple)
-                        
-                        
+                    
+                    
                 }
                 Spacer()
             }
@@ -175,7 +177,7 @@ struct InAppPurchases: View {
         }
         
         .onAppear{
-            
+            requestReview()
             Purchases.shared.getOfferings { (offerings, error) in
                 if let packages = offerings?.offering(identifier: inAppPurchases)?.availablePackages {
                     

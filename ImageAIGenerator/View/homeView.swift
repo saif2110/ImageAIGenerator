@@ -17,7 +17,7 @@ struct homeView: View {
     @State var itemLocal:String = ""
     
     @State var showError:Bool = false
-    
+    @State var ShowIAP:Bool = false
     @State var errorText = "Dear user, please choose the desired art style from the options below."
     
     let columns = [
@@ -122,14 +122,18 @@ struct homeView: View {
                     }
                     
                     
-                    Rectangle().fill(.clear).frame(height: 10)
-                    
-                    Button {
+                    if !AppUserDefaults.isPRO {
                         
-                    } label: {
-                        Image("offer")
-                            .resizable()
-                            .frame(height: 110)
+                        Rectangle().fill(.clear).frame(height: 10)
+                        
+                        Button {
+                            ShowIAP = true
+                        } label: {
+                            Image("offer")
+                                .resizable()
+                                .frame(height: 110)
+                        }
+                        
                     }
                     
                     Rectangle().fill(.clear).frame(height: 6)
@@ -184,54 +188,62 @@ struct homeView: View {
                 
             }
             
-        }.ignoresSafeArea(.keyboard)
+        }
         
+        .overlay(content: {
+            if ShowIAP {
+                InAppPurchases(close: $ShowIAP).padding(.top,40)
+            }
+        })
         
+        .ignoresSafeArea(.keyboard)
         
-            .toolbar(content: {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    
-                    //                    if !AppUserDefaults.isPremiumUser {
-                    Button{
-                        withAnimation{
-                            //  showSubscriptionView = true
-                        }
-                    }label: {
-                        HStack(spacing:5){
-                            //                                Text("\(settingsViewModel.credit) \(settingsViewModel.credit > 1 ? "Credits" : "Credit")")
-                            Image(systemName: "c.circle.fill")
-                                .foregroundColor(.yellow)
-                            //                       // Text("\(settingsViewModel.credit)")
-                            //                            .font(.callout)
-                            //                            .fontWeight(.semibold)
-                        }
-                        .padding(.vertical,5)
-                        .padding(.leading, 5)
-                        .padding(.trailing, 8)
-                        //                            .overlay(
-                        //                                RoundedRectangle(cornerRadius: 20)
-                        //                                    .stroke(Color.appTheme, lineWidth:2)
-                        //                            )
-                    }
-                    //                    }
-                    
-                }
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 
-            })
-            .toolbar {
-                ToolbarItem(placement: .keyboard) {
-                    //                            Button("Done") {
-                    //                                isFocused = false
-                    //                            }.frame(maxWidth: .infinity, alignment: .trailing)
-                    Button(action: {
-                        isFocused = false
-                    }, label: {
-                        Image(systemName: "keyboard.chevron.compact.down")
-                    }).frame(maxWidth: .infinity, alignment: .trailing)
+                //                    if !AppUserDefaults.isPremiumUser {
+                Button{
+                    withAnimation{
+                        //  showSubscriptionView = true
+                    }
+                }label: {
+                    HStack(spacing:5){
+                        //                                Text("\(settingsViewModel.credit) \(settingsViewModel.credit > 1 ? "Credits" : "Credit")")
+                        Image(systemName: "c.circle.fill")
+                            .foregroundColor(.yellow)
+                        //                       // Text("\(settingsViewModel.credit)")
+                        //                            .font(.callout)
+                        //                            .fontWeight(.semibold)
+                    }
+                    .padding(.vertical,5)
+                    .padding(.leading, 5)
+                    .padding(.trailing, 8)
+                    //                            .overlay(
+                    //                                RoundedRectangle(cornerRadius: 20)
+                    //                                    .stroke(Color.appTheme, lineWidth:2)
+                    //                            )
                 }
+                //                    }
                 
             }
-
+            
+        })
+        .toolbar {
+            ToolbarItem(placement: .keyboard) {
+                //                            Button("Done") {
+                //                                isFocused = false
+                //                            }.frame(maxWidth: .infinity, alignment: .trailing)
+                Button(action: {
+                    isFocused = false
+                }, label: {
+                    Image(systemName: "keyboard.chevron.compact.down")
+                }).frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            
+        }
+        
+        
+        
     }
     
 }
@@ -264,34 +276,34 @@ func vibarate(){
 
 struct UIViewLifeCycleHandler: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIViewController
-
+    
     var onWillAppear: () -> Void = { }
-
+    
     func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> UIViewControllerType {
         context.coordinator
     }
-
+    
     func updateUIViewController(
         _: UIViewControllerType,
         context _: UIViewControllerRepresentableContext<Self>
     ) { }
-
+    
     func makeCoordinator() -> Self.Coordinator {
         Coordinator(onWillAppear: onWillAppear)
     }
-
+    
     class Coordinator: UIViewControllerType {
         let onWillAppear: () -> Void
-
+        
         init(onWillAppear: @escaping () -> Void) {
             self.onWillAppear = onWillAppear
             super.init(nibName: nil, bundle: nil)
         }
-
+        
         required init?(coder _: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-
+        
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
             onWillAppear()
@@ -308,7 +320,7 @@ extension View {
 
 struct WillAppearModifier: ViewModifier {
     let callback: () -> Void
-
+    
     func body(content: Content) -> some View {
         content.background(UIViewLifeCycleHandler(onWillAppear: callback))
     }
