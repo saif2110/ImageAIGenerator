@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct homeView: View {
+  @AppStorage("isIAPOpened") var isIAPOpened: Bool = false
     @AppStorage("AIGTK") var token: Int = 0
     @StateObject var viewModel = ViewModel()
     @State var Prompt:String = "Enter Prompt"
@@ -76,6 +77,7 @@ struct homeView: View {
                                 Button {
                                   
                                   guard self.token != 0 else {
+                                    isIAPOpened = true
                                     return ShowIAP = true
                                   }
                                   
@@ -131,6 +133,7 @@ struct homeView: View {
                         Rectangle().fill(.clear).frame(height: 10)
                         
                         Button {
+                            isIAPOpened = true
                             ShowIAP = true
                         } label: {
                             Image("offer")
@@ -196,7 +199,7 @@ struct homeView: View {
         
         .overlay(content: {
             if ShowIAP {
-                InAppPurchases(close: $ShowIAP).padding(.top,40)
+                InAppPurchases(close: $ShowIAP).padding(.top,10)
             }
         })
         

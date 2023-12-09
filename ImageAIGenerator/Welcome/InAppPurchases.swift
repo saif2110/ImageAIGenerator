@@ -13,6 +13,7 @@ import StoreKit
 let inAppPurchases = "AiArtCoins"
 
 struct InAppPurchases: View {
+   @AppStorage("isIAPOpened") var isIAPOpened: Bool = false
     @Environment(\.requestReview) var requestReview
   @AppStorage("AIGTK") var token: Int = 0
     @Binding var close:Bool
@@ -64,6 +65,7 @@ struct InAppPurchases: View {
                                 
                                  token += 50
                                // AppUserDefaults.isPRO = true
+                                isIAPOpened = false
                                 close.toggle()
                                 
                             }
@@ -148,6 +150,7 @@ struct InAppPurchases: View {
                 HStack {
                     Spacer()
                     Button {
+                      isIAPOpened = false
                         close.toggle()
                     } label: {
                         Image(systemName: "xmark")

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EditView: View {
+  @AppStorage("isIAPOpened") var isIAPOpened: Bool = false
   @AppStorage("AIGTK") var token: Int = 0
   @StateObject var viewModel = ViewModel()
   @State var text = "Enter prompt to edit"
@@ -175,6 +176,7 @@ struct EditView: View {
           Button {
             
             guard self.token != 0 else {
+              isIAPOpened =  true
               return ShowIAP = true
             }
             
@@ -192,11 +194,7 @@ struct EditView: View {
             
             isFocused = false
             errorText = ""
-            
-//            guard AppUserDefaults.isPRO || AppUserDefaults.AppUsed == 0 else {
-//              ShowIAP = true
-//              return
-//            }
+
             
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
               
@@ -332,7 +330,7 @@ struct EditView: View {
     
     .overlay {
       if ShowIAP {
-        InAppPurchases(close: $ShowIAP)
+        InAppPurchases(close: $ShowIAP).padding(.top,10)
       }
     }
     

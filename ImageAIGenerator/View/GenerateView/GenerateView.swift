@@ -15,6 +15,7 @@ enum CreditKey: String {
 
 
 struct GenerateView: View {
+  @AppStorage("isIAPOpened") var isIAPOpened: Bool = false
     @State var initDismiss:Bool = false
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel = ViewModel()
@@ -145,13 +146,10 @@ struct GenerateView: View {
                                     Button {
                                         
                                         isFocused = false
-                                        
-//                                        guard AppUserDefaults.isPRO || AppUserDefaults.AppUsed == 0 else {
-//                                            ShowIAP = true
-//                                            return }
-                                      
+                                                                              
                                       
                                       guard self.token != 0 else {
+                                        isIAPOpened =  true
                                         return ShowIAP = true
                                       }
                                         
@@ -212,7 +210,7 @@ struct GenerateView: View {
             }
             .overlay(content: {
                 if ShowIAP {
-                    InAppPurchases(close: $ShowIAP).padding(.top,40)
+                    InAppPurchases(close: $ShowIAP).padding(.top,10)
                 }
                 
                 

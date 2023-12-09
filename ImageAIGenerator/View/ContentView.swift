@@ -14,6 +14,7 @@ struct ContentView: View {
   @State var selectedView = "Home"
   @State var images:[Image] = [Image("Edit"),Image("main"),Image("photo_white")]
   @AppStorage("AIGTK") var token: Int = 0
+  @AppStorage("isIAPOpened") var isIAPOpened: Bool = false
   
   let home = homeView()
   let edit = EditView()
@@ -36,68 +37,70 @@ struct ContentView: View {
     }
     .overlay {
       
-      VStack{
-        HStack {
+      if !isIAPOpened {
+        
+        VStack{
+          HStack {
+            Spacer()
+            HStack(content: {
+              Image("token")
+                .resizable()
+                .frame(width: 15, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+              Text(String(token))
+                .font(Font.system(size: 15, weight: .semibold, design: .monospaced))
+            }) .padding(2)
+              .padding(.horizontal,5)
+              .cornerRadius(10)
+              .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                  .stroke(.purple, lineWidth: 1)
+              )
+            
+          }
+          .padding()
+          .padding(.top,-10)
+          
+          
           Spacer()
-          HStack(content: {
-            Image("token")
-              .resizable()
-              .frame(width: 15, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            Text(String(token))
-              .font(Font.system(size: 15, weight: .semibold, design: .monospaced))
-          }) .padding(2)
-            .padding(.horizontal,5)
-            .cornerRadius(10)
-            .overlay(
-              RoundedRectangle(cornerRadius: 10)
-                .stroke(.purple, lineWidth: 1)
-            )
+          HStack(spacing: 60){
+            Button {
+              selectedView = "Edit"
+              images = [Image("coloredEdit"),Image("main_White"),Image("photo_white")]
+            } label: {
+              images[0]
+                .resizable()
+                .frame(width: 26, height: 26, alignment: .center)
+            }
+            
+            Button {
+              selectedView = "Home"
+              images = [Image("Edit"),Image("main"),Image("photo_white")]
+            } label: {
+              images[1]
+                .resizable()
+                .frame(width: 26, height: 26, alignment: .center)
+            }
+            
+            
+            Button {
+              selectedView = "Photo"
+              images = [Image("Edit"),Image("main_White"),Image("photo")]
+            } label: {
+              images[2]
+                .resizable()
+                .frame(width: 26, height: 26, alignment: .center)
+            }
+            
+          }
+          .frame(height: 60)
+          .frame(width: UIScreen.main.bounds.size.width-45)
+          .background(Color(hex: 0x222141, alpha: 1))
+          .cornerRadius(15)
+          
           
         }
-        .padding()
-        .padding(.top,-10)
-       
-        
-        Spacer()
-        HStack(spacing: 60){
-          Button {
-            selectedView = "Edit"
-            images = [Image("coloredEdit"),Image("main_White"),Image("photo_white")]
-          } label: {
-            images[0]
-              .resizable()
-              .frame(width: 26, height: 26, alignment: .center)
-          }
-          
-          Button {
-            selectedView = "Home"
-            images = [Image("Edit"),Image("main"),Image("photo_white")]
-          } label: {
-            images[1]
-              .resizable()
-              .frame(width: 26, height: 26, alignment: .center)
-          }
-          
-          
-          Button {
-            selectedView = "Photo"
-            images = [Image("Edit"),Image("main_White"),Image("photo")]
-          } label: {
-            images[2]
-              .resizable()
-              .frame(width: 26, height: 26, alignment: .center)
-          }
-          
-        }
-        .frame(height: 60)
-        .frame(width: UIScreen.main.bounds.size.width-45)
-        .background(Color(hex: 0x222141, alpha: 1))
-        .cornerRadius(15)
-        
-        
+        .ignoresSafeArea(.keyboard)
       }
-      .ignoresSafeArea(.keyboard)
-      
     }
   }
 }
