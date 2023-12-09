@@ -573,13 +573,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ImageAIGenerator/Preview Content\"";
 				DEVELOPMENT_TEAM = 959YZPX78D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageAIGenerator/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "AI Image";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Art";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "To take a picture for edit image";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Give app permission to save Ai generated photos inside the photos.";
@@ -592,7 +592,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIArt.apps15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -611,13 +611,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ImageAIGenerator/Preview Content\"";
 				DEVELOPMENT_TEAM = 959YZPX78D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ImageAIGenerator/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "AI Image";
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Art";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "To take a picture for edit image";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Give app permission to save Ai generated photos inside the photos.";
@@ -630,7 +630,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AIArt.apps15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
