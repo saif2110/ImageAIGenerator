@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct homeView: View {
+    @AppStorage("AIGTK") var token: Int = 0
     @StateObject var viewModel = ViewModel()
     @State var Prompt:String = "Enter Prompt"
     @FocusState var isFocused: Bool
@@ -73,7 +74,11 @@ struct homeView: View {
                                     }
                                 
                                 Button {
-                                    
+                                  
+                                  guard self.token != 0 else {
+                                    return ShowIAP = true
+                                  }
+                                  
                                     guard Prompt != "", Prompt != "Enter Prompt",Prompt.count > 5 else {
                                         errorText = "Please enter a prompt to obtain the desired image. (Minimum words require is 3)"
                                         showError = true
@@ -122,7 +127,6 @@ struct homeView: View {
                     }
                     
                     
-                    if !AppUserDefaults.isPRO {
                         
                         Rectangle().fill(.clear).frame(height: 10)
                         
@@ -134,7 +138,7 @@ struct homeView: View {
                                 .frame(height: 110)
                         }
                         
-                    }
+                    
                     
                     Rectangle().fill(.clear).frame(height: 6)
                     

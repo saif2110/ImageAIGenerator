@@ -62,7 +62,8 @@ struct ImageView: View {
                                                 .scaledToFit()
                                                 .onAppear{
                                                     imageLocal = image
-                                                    PhotoManager.shared.savePhoto(image.asUIImage())
+                                                    ImageManager().saveImage(image: image.asUIImage())
+                                                    //PhotoManager.shared.savePhoto(image.asUIImage())
                                                 }
                                             
                                         } placeholder: {

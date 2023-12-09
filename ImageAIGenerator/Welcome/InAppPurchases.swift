@@ -10,11 +10,11 @@ import RevenueCat
 import StoreKit
 
 
-let inAppPurchases = "AiWeekly"
+let inAppPurchases = "AiArtCoins"
 
 struct InAppPurchases: View {
     @Environment(\.requestReview) var requestReview
-    
+  @AppStorage("AIGTK") var token: Int = 0
     @Binding var close:Bool
     @State var price = ""
     @State var package:Package?
@@ -32,15 +32,15 @@ struct InAppPurchases: View {
                         .padding(.horizontal,35)
                         .padding(.bottom,25)
                     
-                    Text("Claim Trial Period!")
-                        .font(Font.system(size: 33, weight: .bold, design: .rounded))
+                    Text("Buy Ai Credits!")
+                        .font(Font.system(size: 30, weight: .bold, design: .rounded))
                         .minimumScaleFactor(0.6)
                         .foregroundColor(.white)
                         .padding(.horizontal)
                         .lineLimit(1)
                     
                     
-                    Text("Unlock all the feature, remove ads, generate & edit unlimited photos with three days trial then just \(price) per week. You can cancel anytime you want. No quetions will be asked.")
+                    Text("Unlock all the feature, remove ads, generate/edit fifty photos with fifty credits, all for just \(price).\nYou can generate as well as edit photos with these credits. These credits have no expiration at all.")
                         .font(Font.system(size: 15, weight: .regular, design: .default))
                         .foregroundColor(.white)
                         .padding(.horizontal)
@@ -62,7 +62,8 @@ struct InAppPurchases: View {
                             
                             if customerInfo?.entitlements[inAppPurchases]?.isActive == true {
                                 
-                                AppUserDefaults.isPRO = true
+                                 token += 50
+                               // AppUserDefaults.isPRO = true
                                 close.toggle()
                                 
                             }
@@ -72,63 +73,63 @@ struct InAppPurchases: View {
                         Image("buttonBG")
                             .resizable()
                             .overlay {
-                                Text("Continue")
+                                Text("Get Credits Now")
                                     .foregroundColor(.white)
-                                    .font(.system(size: 20, weight: .semibold, design: .default))
+                                    .font(.system(size: 18, weight: .semibold, design: .default))
                             }
                     }.frame(height: 50, alignment: .center)
                         .padding(.top,45)
                         .padding(.horizontal,20)
                     
                     
-                    HStack {
-                        
-                        
-                        Button {
-                            guard let url = URL(string: "https://apps15.com/privacy.html") else { return }
-                            UIApplication.shared.open(url)
-                        } label: {
-                            Text("Privacy policy")
-                                .font(.system(size: 11))
-                                .foregroundColor(.white.opacity(0.7))
-                        }
-                        
-                        
-                        Spacer()
-                        
-                        Button {
-                            
-                            Purchases.shared.restorePurchases { purchaserInfo, error in
-                                if !(purchaserInfo?.entitlements.active.isEmpty ?? false) {
-                                    
-                                    AppUserDefaults.isPRO = true
-                                    
-                                }else{
-                                    AlertMessage = "Error! Unable to purchase anything. No Purchase found."
-                                    showingAlert = true
-                                }
-                            }
-                            
-                        } label: {
-                            Text("Retore Purchase")
-                                .font(.system(size: 11))
-                                .foregroundColor(.white.opacity(0.7))
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            guard let url = URL(string: "https://apps15.com/termsofuse.html") else { return }
-                            UIApplication.shared.open(url)
-                        }label:{
-                            Text("Terms of Service")
-                                .font(.system(size: 11))
-                                .foregroundColor(.white.opacity(0.7))
-                        }
-                        
-                        
-                    }
-                    .padding()
+//                    HStack {
+//                        
+//                        
+//                        Button {
+//                            guard let url = URL(string: "https://apps15.com/privacy.html") else { return }
+//                            UIApplication.shared.open(url)
+//                        } label: {
+//                            Text("Privacy policy")
+//                                .font(.system(size: 11))
+//                                .foregroundColor(.white.opacity(0.7))
+//                        }
+//                        
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            
+//                            Purchases.shared.restorePurchases { purchaserInfo, error in
+//                                if !(purchaserInfo?.entitlements.active.isEmpty ?? false) {
+//                                    
+//                                    AppUserDefaults.isPRO = true
+//                                    
+//                                }else{
+//                                    AlertMessage = "Error! Unable to purchase anything. No Purchase found."
+//                                    showingAlert = true
+//                                }
+//                            }
+//                            
+//                        } label: {
+//                            Text("Retore Purchase")
+//                                .font(.system(size: 11))
+//                                .foregroundColor(.white.opacity(0.7))
+//                        }
+//                        
+//                        Spacer()
+//                        
+//                        Button {
+//                            guard let url = URL(string: "https://apps15.com/termsofuse.html") else { return }
+//                            UIApplication.shared.open(url)
+//                        }label:{
+//                            Text("Terms of Service")
+//                                .font(.system(size: 11))
+//                                .foregroundColor(.white.opacity(0.7))
+//                        }
+//                        
+//                        
+//                    }
+//                    .padding()
                     
                     Rectangle().fill(.clear).frame(height: 50)
                     
@@ -186,10 +187,9 @@ struct InAppPurchases: View {
                 }
             }
             
-            
             Purchases.shared.getOfferings { (offerings, error) in
                 if let offerings {
-                    price = offerings.offering(identifier: inAppPurchases)?.weekly?.localizedPriceString ?? "$2.99"
+                    price = offerings.current?.availablePackages.first?.localizedPriceString ?? "$0.00"
                 }
             }
         }

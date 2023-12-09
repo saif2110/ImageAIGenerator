@@ -1,12 +1,14 @@
 import Foundation
 import UIKit
 import Alamofire
+import SwiftUI
 
 final class ViewModel: ObservableObject {
     private let urlSession: URLSession
     @Published var imageURL: URL?
     @Published var isLoading = false
     @Published var isEditedClick:Bool = false
+    @AppStorage("AIGTK") var token: Int = 0
     
     init(urlSession: URLSession = URLSession.shared) {
         self.urlSession = urlSession
@@ -38,12 +40,14 @@ final class ViewModel: ObservableObject {
             let model = try JSONDecoder().decode(ModelResponse.self, from: data)
             
             DispatchQueue.main.async {
+                guard self.token != 0 else {return}
+                self.token -= 1
                 self.isLoading = false
                 guard let firstModel = model.data?.first else {
                     return
                 }
                 self.imageURL = URL(string: firstModel.url ?? "")
-                print(self.imageURL ?? "No imageURL")
+                //print(self.imageURL ?? "No imageURL")
             }
             
         } catch {
@@ -79,12 +83,14 @@ final class ViewModel: ObservableObject {
             let model = try JSONDecoder().decode(ModelResponse.self, from: data)
             
             DispatchQueue.main.async {
+                guard self.token != 0 else {return}
+                self.token -= 1
                 self.isLoading = false
                 guard let firstModel = model.data?.first else {
                     return
                 }
                 self.imageURL = URL(string: firstModel.url ?? "")
-                print(self.imageURL ?? "No imageURL")
+              //  print(self.imageURL ?? "No imageURL")
             }
             
         }catch let DecodingError.dataCorrupted(context) {
@@ -148,11 +154,13 @@ final class ViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self.isLoading = false
+                guard self.token != 0 else {return}
+                self.token -= 1
                 guard let firstModel = model.data?.first else {
                     return
                 }
                 self.imageURL = URL(string: firstModel.url ?? "")
-                print(self.imageURL ?? "No imageURL")
+                //print(self.imageURL ?? "No imageURL")
             }
         }
         

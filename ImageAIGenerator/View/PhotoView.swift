@@ -19,7 +19,7 @@ struct PhotoView: View {
 
     
     
-    @State var photos = PhotoManager.shared.retrievePhotos()
+  @State var photos = ImageManager().loadAllImagesFromDocumentDirectory()
     
     var body: some View {
         VStack{
@@ -31,7 +31,7 @@ struct PhotoView: View {
             }
             
             
-            if photos?.count == 0 || photos?.count == nil {
+            if photos.count == 0  {
                 
                 VStack {
                     Spacer()
@@ -92,8 +92,8 @@ struct PhotoView: View {
         }
         
         .onAppear{
-            if PhotoManager.shared.retrievePhotos()?.count != photos?.count {
-                photos = PhotoManager.shared.retrievePhotos()
+          if ImageManager().loadAllImagesFromDocumentDirectory().count != photos.count {
+               photos = ImageManager().loadAllImagesFromDocumentDirectory()
             }
         }
     }

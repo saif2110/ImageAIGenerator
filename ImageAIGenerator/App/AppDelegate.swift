@@ -12,38 +12,45 @@ import Firebase
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
-        Purchases.logLevel = .error
-        Purchases.configure(withAPIKey: "appl_ApjmvDwhYmKluoyLqMjXeaBuicl")
-        Purchases.shared.delegate = self
-        
-        isSubsActive()
-        
-        FirebaseApp.configure()
-        
-        return true
+  @AppStorage("AIGTK") var token: Int = 0
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    
+    Purchases.logLevel = .error
+    Purchases.configure(withAPIKey: "appl_ApjmvDwhYmKluoyLqMjXeaBuicl")
+    Purchases.shared.delegate = self
+    
+    isSubsActive()
+    
+    FirebaseApp.configure()
+    
+    if AppUserDefaults.AppOpend == 0 {
+      token = 3
     }
     
+    AppUserDefaults.AppOpend += 1
     
-    
+    return true
+  }
+  
+  
+  
 }
 
 func isSubsActive(){
+  
+  Purchases.shared.getCustomerInfo { (purchaserInfo, error) in
     
-    Purchases.shared.getCustomerInfo { (purchaserInfo, error) in
-        
-        if !(purchaserInfo?.entitlements.active.isEmpty ?? false) {
-            AppUserDefaults.isPRO = true
-        }else{
-            AppUserDefaults.isPRO = false
-        }
+    if !(purchaserInfo?.entitlements.active.isEmpty ?? false) {
+      AppUserDefaults.isPRO = true
+    }else{
+      AppUserDefaults.isPRO = false
     }
+  }
 }
 
 
 extension AppDelegate: PurchasesDelegate {
-    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
-        /// - handle any changes to the user's CustomerInfo
-    }
+  func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
+    /// - handle any changes to the user's CustomerInfo
+  }
 }

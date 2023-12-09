@@ -29,6 +29,7 @@ struct GenerateView: View {
     @State var promtToadd:String = ""
     @State var isPresented:Bool = false
     @State var ShowIAP:Bool = false
+    @AppStorage("AIGTK") var token: Int = 0
     //    @State var credit = AppUserDefaults.credit
     
     var body: some View {
@@ -145,9 +146,14 @@ struct GenerateView: View {
                                         
                                         isFocused = false
                                         
-                                        guard AppUserDefaults.isPRO || AppUserDefaults.AppUsed == 0 else {
-                                            ShowIAP = true
-                                            return }
+//                                        guard AppUserDefaults.isPRO || AppUserDefaults.AppUsed == 0 else {
+//                                            ShowIAP = true
+//                                            return }
+                                      
+                                      
+                                      guard self.token != 0 else {
+                                        return ShowIAP = true
+                                      }
                                         
                                         if(text.isEmpty){
                                             showingAlert = true
